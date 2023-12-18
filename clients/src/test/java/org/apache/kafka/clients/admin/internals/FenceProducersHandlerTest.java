@@ -142,6 +142,6 @@ public class FenceProducersHandlerTest {
         CoordinatorKey key = CoordinatorKey.byTransactionalId(transactionalId);
         InitProducerIdRequest.Builder request = handler.buildSingleRequest(1, key);
         assertEquals(transactionalId, request.data.transactionalId());
-        assertEquals(1, request.data.transactionTimeoutMs());
+        assertEquals(1000, request.data.transactionTimeoutMs());
     }
 }
