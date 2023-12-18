@@ -82,9 +82,10 @@ public class FenceProducersHandler extends AdminApiHandler.Unbatched<Coordinator
             .setProducerEpoch(ProducerIdAndEpoch.NONE.epoch)
             .setProducerId(ProducerIdAndEpoch.NONE.producerId)
             .setTransactionalId(key.idValue)
-            // Set transaction timeout to 1 since it's only being initialized to fence out older producers with the same transactional ID,
-            // and shouldn't be used for any actual record writes
-            .setTransactionTimeoutMs(1);
+            // Set transaction timeout to 1000 since it's only being initialized to fence out older producers with the same transactional ID,
+            // and shouldn't be used for any actual record writes. This has been increased from one as some brokers may be slower than expected
+            // and we need a safe timeout that allows the transaction init to finish.
+            .setTransactionTimeoutMs(1000);
         return new InitProducerIdRequest.Builder(data);
     }
 
